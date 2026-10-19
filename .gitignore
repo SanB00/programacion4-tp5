@@ -1,0 +1,53 @@
+bin/module-info.class
+
+
+# --- Java y Compilación ---
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+/bin/
+/target/
+
+# --- Eclipse ---
+.metadata/
+# .project
+# .classpath
+# .settings/
+*.launch
+.externalToolBuilders/
+
+# --- Sistemas Operativos ---
+.DS_Store
+Thumbs.db
+.idea/.gitignore
+.idea/.name
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+/.idea/
+/out/
+*/.idea/
+*/out/
+/build/
+/src/main/webapp/temp/
+/src/main/webapp/conf/
+/src/main/webapp/logs/
+src/main/webapp/logs/catalina.2026-09-28.log
+src/main/webapp/logs/localhost_access_log.2026-09-28.txt
+src/main/webapp/work/Catalina/localhost/TP4_GRUPO_16/SESSIONS.ser
+src/main/webapp/work/Catalina/localhost/TP4_GRUPO_16/org/apache/jsp/Ejercicio1_jsp.java
+
+
+
+# IDE specific configurations
+.settings/
+.smarttomcat/
+.idea/
+*.iml
+
+# Tomcat local working directories
+work/
+build/
+bin/
