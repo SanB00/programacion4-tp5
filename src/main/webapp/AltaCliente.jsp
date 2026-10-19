@@ -11,15 +11,16 @@
 </head>
 <body class="bg-light py-5">
 
+<jsp:include page="Menu.jsp"></jsp:include>
+</hr>
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7">
                 
-                <!-- botones de navegacion -->
-                <div class="mb-3 text-center">
-                    <a href="AltaCliente.jsp" class="btn btn-outline-primary btn-sm me-2">Alta de Cliente</a>
-                    <a href="ListadoCliente.jsp" class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
-                </div>
+              
+				
 
                 <!-- cuadro para cargar los datos del cliente -->
                 <div class="card shadow p-4">

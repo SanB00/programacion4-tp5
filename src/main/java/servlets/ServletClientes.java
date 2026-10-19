@@ -44,7 +44,7 @@ public class ServletClientes extends HttpServlet {
 			throws ServletException, IOException {
 		// 0) detectar btnGuardarCliente
 		if (request.getParameter("btnGuardarCliente") != null) {
-			// paso 1, obtener datos del form
+			// 1) obtener datos del form
 			String dni = request.getParameter("txtDni");
 			String cuil = request.getParameter("txtCuil");
 			String nombre = request.getParameter("txtNombre");
@@ -59,50 +59,47 @@ public class ServletClientes extends HttpServlet {
 			String telefono = request.getParameter("txtTelefono");
 
 			// 2) validar tipo de dato
-			boolean datosValidos = dni != null && dni.matches("[0-9]{6,8}")
-					&& cuil != null && cuil.matches("[0-9]{11}")
-					&& nombre != null && nombre.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& apellido != null && apellido.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& sexo != null && !sexo.trim().isEmpty()
-					&& fechaNacimiento != null && !fechaNacimiento.trim().isEmpty()
-					&& direccion != null && !direccion.trim().isEmpty()
-					&& nacionalidad != null && nacionalidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& localidad != null && localidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& provincia != null && provincia.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& correo != null && correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
-					&& telefono != null && telefono.matches("[0-9]{10}");
-
-			if (datosValidos) {
-				Clientes cliente = new Clientes();
-				cliente.setDni(dni);
-				cliente.setCuil(cuil);
-				cliente.setNombre(nombre);
-				cliente.setApellido(apellido);
-				cliente.setSexo(sexo);
-				cliente.setFechaNacimiento(fechaNacimiento);
-				cliente.setDireccion(direccion);
-				cliente.setNacionalidad(nacionalidad);
-				cliente.setLocalidad(localidad);
-				cliente.setProvincia(provincia);
-				cliente.setCorreo(correo);
-				cliente.setTelefono(telefono);
-
-				// 3) guardar con dao
-				ClienteNegImpl clienteNeg = new ClienteNegImpl();
-				int filas = clienteNeg.agregarCliente(cliente);
-
-				if (filas > 0) {
-					response.sendRedirect("ListadoCliente.jsp");
-				} else {
-					response.sendRedirect("AltaCliente.jsp?error=1");
-				}
-			} else {
+			boolean losDatosSonValidos = dni != null && dni.matches("[0-9]{6,8}") && cuil != null
+					&& cuil.matches("[0-9]{11}") && nombre != null && nombre.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
+					&& apellido != null && apellido.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && sexo != null
+					&& !sexo.trim().isEmpty() && fechaNacimiento != null && !fechaNacimiento.trim().isEmpty()
+					&& direccion != null && !direccion.trim().isEmpty() && nacionalidad != null
+					&& nacionalidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && localidad != null
+					&& localidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && provincia != null
+					&& provincia.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && correo != null
+					&& correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$") && telefono != null
+					&& telefono.matches("[0-9]{10}");
+			if (!losDatosSonValidos) {
 				response.sendRedirect("AltaCliente.jsp?error=1");
 			}
-			//4) indicar resultado al usuario
-			request.setAttribute("mensaje", "Cliente agregado correctamente");
-		request.getRequestDispatcher("ListadoCliente.jsp").forward(request, response);
-		
+			Clientes objCliente = new Clientes();
+			objCliente.setDni(dni);
+			objCliente.setCuil(cuil);
+			objCliente.setNombre(nombre);
+			objCliente.setApellido(apellido);
+			objCliente.setSexo(sexo);
+			objCliente.setFechaNacimiento(fechaNacimiento);
+			objCliente.setDireccion(direccion);
+			objCliente.setNacionalidad(nacionalidad);
+			objCliente.setLocalidad(localidad);
+			objCliente.setProvincia(provincia);
+			objCliente.setCorreo(correo);
+			objCliente.setTelefono(telefono);
+
+			// 3) guardar con dao
+			ClienteNegImpl clienteNeg = new ClienteNegImpl();
+			int filas = clienteNeg.agregarCliente(objCliente);
+
+			if (filas <= 0) {
+				response.sendRedirect("AltaCliente.jsp?error=1");
+				return;
+			}
+			// 4) indicar resultado al usuario
+			int idCliente = objCliente.getId();
+			request.setAttribute("idCliente", idCliente);
+			request.setAttribute("objCliente", objCliente);
+			request.getRequestDispatcher("ConfirmacionAltaCliente.jsp").forward(request, response);
+
 		}
 	}
 
