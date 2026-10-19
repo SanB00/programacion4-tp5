@@ -2,6 +2,7 @@ package datosImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import datos.ClientesDao;
@@ -78,12 +79,15 @@ public class ClientesDaoImpl implements ClientesDao{
 		return cl;
 	}
 	@Override
-	public int agregarCliente(Clientes cliente) {
+	public int agregarCliente(Clientes cliente) throws Exception {
 		cn=new conexion();
 		cn.open();
-		PreparedStatement ps=cn.queryp("insert into clientes(dni,cuil,nombre,apellido,sexo,fecha_nacimiento,direccion,nacionalidad,localidad,provincia,correo_electronico,telefono) values (?,?,?,?,?,?,?,?,?,?,?,?)");
+		String sql = "insert into clientes(dni,cuil,nombre,apellido,sexo,fecha_nacimiento,direccion,nacionalidad,localidad,provincia,correo_electronico,telefono) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+	    
+	    // 2. Crear el PreparedStatement indicando explícitamente el retorno de keys
+	    PreparedStatement ps = cn.getConnection().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+		
 		int filas=0;
-				try {
 			System.out.println("mostrando desde el dao ");
 			ps.setString(1, cliente.getDni());
 			System.out.println(cliente.getDni());
@@ -110,16 +114,22 @@ public class ClientesDaoImpl implements ClientesDao{
 			ps.setString(12, cliente.getTelefono());
 			System.out.println(cliente.getTelefono());
 			filas=ps.executeUpdate();
+			
+			int idGenerado = -1;
+			// 2. Si se insertó correctamente, obtenemos el ID
+		    if (filas > 0) {
+		        try (ResultSet rs = ps.getGeneratedKeys()) {
+		            if (rs.next()) {
+		                idGenerado = rs.getInt(1); // Este es el ID autogenerado de la fila
+		                cliente.setId(idGenerado); // Si tu objeto cliente tiene un método setId
+		                
+		            }
+		        }
+		    }
+		    
+		    return idGenerado;
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-		finally {
-			cn.close();
-		}
-		return filas;
-	}
+	
 	@Override
 	public int modificarCliente(String dni, String cuil, String nombre, String apellido, String sexo,
 			String fechaNacimiento, String direccion, String nacionalidad, String localidad, String provincia,

@@ -14,7 +14,11 @@
 <jsp:include page="Menu.jsp"></jsp:include>
 </hr>
 
-
+	<c:if test="${not empty errorMensaje}">
+        <div style="color: red; background-color: #ffe6e6; padding: 10px; border: 1px solid red; margin-bottom: 15px;">
+            <strong>¡Atención!</strong> ${errorMensaje}
+        </div>
+    </c:if>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7">

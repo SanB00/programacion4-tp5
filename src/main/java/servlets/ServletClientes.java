@@ -87,19 +87,22 @@ public class ServletClientes extends HttpServlet {
 			objCliente.setTelefono(telefono);
 
 			// 3) guardar con dao
-			ClienteNegImpl clienteNeg = new ClienteNegImpl();
-			int filas = clienteNeg.agregarCliente(objCliente);
+			int idGenerado = -1;
+			try {
+				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
+			} catch (Exception e) {
+				request.setAttribute("mensajeError", "Error: " + e);
+			}
 
-			if (filas <= 0) {
+			if (idGenerado <= 0) {
 				response.sendRedirect("AltaCliente.jsp?error=1");
 				return;
 			}
 			// 4) indicar resultado al usuario
-			int idCliente = objCliente.getId();
-			request.setAttribute("idCliente", idCliente);
+			objCliente.setId(idGenerado);
+			request.setAttribute("idCliente", idGenerado);
 			request.setAttribute("objCliente", objCliente);
 			request.getRequestDispatcher("ConfirmacionAltaCliente.jsp").forward(request, response);
-
 		}
 	}
 

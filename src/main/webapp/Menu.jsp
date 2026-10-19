@@ -20,5 +20,11 @@
 		<a href="ListadoCliente.jsp"
 			class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
 	</div>
+	
+	<c:if test="${not empty errorMensaje}">
+        <div style="color: red; background-color: #ffe6e6; padding: 10px; border: 1px solid red; margin-bottom: 15px;">
+            <strong>¡Atención!</strong> ${errorMensaje}
+        </div>
+    </c:if>
 </body>
 </html>

@@ -10,23 +10,26 @@
 </head>
 <body>
 
-<jsp:include page="Menu.jsp"></jsp:include>
-</hr>
+	<jsp:include page="Menu.jsp"></jsp:include>
+	</hr>
 
-	<%
-	Clientes objCliente = null;
-	if (session.getAttribute("objCliente") != null) {
-		objCliente = (Clientes) session.getAttribute("objCliente");
-	}
-	%>
+	<div class="container" style="color: green;">
+		<%
+		Clientes objCliente = null;
+		if (session.getAttribute("objCliente") != null) {
+			objCliente = (Clientes) session.getAttribute("objCliente");
+		}
+		%>
 
-	<c:if test="${not empty objCliente}">
-		<h1>Cliente ingresado con exito!</h1>
-		<div style="color: green;">
+		<c:if test="${not empty objCliente}">
+			<h1>Cliente ingresado con exito!</h1>
+			<p>
 			<h3>
-				El ID es el <strong>"${objCliente.getId()}"</strong>
+				<!-- El ID es el <strong>"${objCliente.getId()}"</strong> -->
+				El ID es el <strong>"${idCliente}"</strong>
 			</h3>
-		</div>
-	</c:if>
+			</p>
+		</c:if>
+	</div>
 </body>
 </html>
