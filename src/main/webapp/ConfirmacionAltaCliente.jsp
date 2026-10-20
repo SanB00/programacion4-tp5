@@ -27,6 +27,10 @@
 			<h3>
 				<!-- El ID es el <strong>"${objCliente.getId()}"</strong> -->
 				El ID es el <strong>"${idCliente}"</strong>
+				El ID es el <strong>"${objCliente.getId()}"</strong>
+				Nombre: <b>"${objCliente.getNombre()}"</b>
+				Apellido: <b>"${objCliente.getApellido()}"</b>
+				DNI: <b>"${objCliente.getDni()}"</b>
 			</h3>
 			</p>
 		</c:if>
