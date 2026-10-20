@@ -17,8 +17,7 @@
 		<a href="AltaCliente.jsp" 
 			class="btn btn-outline-primary btn-sm me-2">Alta de Cliente</a>
 		
-		<a href="ListadoCliente.jsp"
-			class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
+		<a href="${pageContext.request.contextPath}/ServletListado" class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
 	</div>
 	
 	<c:if test="${not empty errorMensaje}">

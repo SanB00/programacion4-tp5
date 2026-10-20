@@ -1,41 +1,64 @@
+
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class ServletListado
- */
+import entidad.Clientes;
+import negocioimpl.ClienteNegImpl;
+
 @WebServlet("/ServletListado")
 public class ServletListado extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletListado() {
-        super();
-        // TODO Auto-generated constructor stub
+
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Verificar que exista una sesión iniciada
+        HttpSession sesion = request.getSession(false);
+
+        if (sesion == null || sesion.getAttribute("usuario") == null) {
+            response.sendRedirect(
+                request.getContextPath() + "/Login.jsp"
+            );
+            return;
+        }
+
+        try {
+            // Obtener los clientes desde la capa de negocio
+            ClienteNegImpl negocio = new ClienteNegImpl();
+            ArrayList<Clientes> listaClientes = negocio.getClientes();
+            
+
+            // Enviar los clientes al JSP
+            request.setAttribute("clientes", listaClientes);
+
+            // Mostrar el listado
+            request.getRequestDispatcher("/ListadoCliente.jsp")
+                   .forward(request, response);
+
+        } catch (Exception e) {
+            throw new ServletException(
+                "Error al obtener el listado de clientes", e
+            );
+        }
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+        doGet(request, response);
+    }
 }
