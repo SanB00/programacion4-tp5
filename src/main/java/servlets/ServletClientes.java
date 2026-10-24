@@ -91,11 +91,11 @@ public class ServletClientes extends HttpServlet {
 			try {
 				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
 			} catch (Exception e) {
-				request.setAttribute("mensajeError", "Error: " + e);
+				request.setAttribute("errorMessage", "Error: " + e);
 			}
 
 			if (idGenerado <= 0) {
-				response.sendRedirect("AltaCliente.jsp?error=1");
+				request.getRequestDispatcher("AltaCliente.jsp?error=1").forward(request, response);
 				return;
 			}
 			// 4) indicar resultado al usuario

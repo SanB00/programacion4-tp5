@@ -20,9 +20,9 @@
 		<a href="${pageContext.request.contextPath}/ServletListado" class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
 	</div>
 	
-	<c:if test="${not empty errorMensaje}">
+	<c:if test="${not empty errorMessage}">
         <div style="color: red; background-color: #ffe6e6; padding: 10px; border: 1px solid red; margin-bottom: 15px;">
-            <strong>¡Atención!</strong> ${errorMensaje}
+            <strong>¡Atención!</strong> ${errorMessage}
         </div>
     </c:if>
 </body>
