@@ -78,4 +78,5 @@ public class conexion {
 	public Connection getConnection() {
 		return this.cn;
 	}
+
 }

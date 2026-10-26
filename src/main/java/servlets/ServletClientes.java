@@ -62,21 +62,13 @@ public class ServletClientes extends HttpServlet {
 			String telefono = request.getParameter("txtTelefono");
 
 			// 2) validar tipo de dato
-			boolean losDatosSonValidos =
-        dni != null && dni.matches("\\d{6,8}") &&
-        cuil != null && cuil.matches("\\d{11}") &&
-        validarTexto(nombre) &&
-        validarTexto(apellido) &&
-        sexo != null && !sexo.isBlank() &&
-        fechaNacimiento != null && !fechaNacimiento.isBlank() &&
-        direccion != null && !direccion.isBlank() &&
-        validarTexto(nacionalidad) &&
-        validarTexto(localidad) &&
-        validarTexto(provincia) &&
-        correo != null && correo.matches(
-                "^[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,6}$"
-        ) &&
-        telefono != null && telefono.matches("\\d{10}");
+			boolean losDatosSonValidos = dni != null && dni.matches("\\d{6,8}") && cuil != null
+					&& cuil.matches("\\d{11}") && validarTexto(nombre) && validarTexto(apellido) && sexo != null
+					&& !sexo.isBlank() && fechaNacimiento != null && !fechaNacimiento.isBlank() && direccion != null
+					&& !direccion.isBlank() && validarTexto(nacionalidad) && validarTexto(localidad)
+					&& validarTexto(provincia) && correo != null
+					&& correo.matches("^[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,6}$") && telefono != null
+					&& telefono.matches("\\d{10}");
 
 			if (!losDatosSonValidos) {
 				request.setAttribute("errorMensaje", "error al guardar, verifique los campos.");
@@ -102,11 +94,14 @@ public class ServletClientes extends HttpServlet {
 			try {
 				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
 			} catch (Exception e) {
-				request.setAttribute("errorMensaje", "Error: " + e);
+				request.setAttribute("errorMensaje", "Error MySQL: " + e);
+				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
+				return;
 			}
 
 			if (idGenerado <= 0) {
-				request.setAttribute("errorMensaje", "error al guardar, verifique los campos.");
+				request.setAttribute("errorMensaje", "error al guardar porque el id generado es \" " + idGenerado
+						+ "\". \n Por favor verifique los campos");
 				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
 				return;
 			}
