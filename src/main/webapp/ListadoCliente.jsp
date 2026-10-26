@@ -15,84 +15,92 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- DataTables -->
+    <!-- DataTables para Bootstrap 5 -->
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
           rel="stylesheet">
 
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #fff;
+            background-color: #f8f9fa;
         }
 
-        .menu-lateral {
+        /* Menú lateral */
+        .sidebar {
+            height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            width: 175px;
-            height: 100vh;
-            background-color: #3069f5;
-            padding: 20px 8px;
+            z-index: 100;
         }
 
-        .menu-lateral h5 {
-            color: white;
-            text-align: center;
-            font-size: 15px;
-            margin-bottom: 25px;
+        .bg-custom-blue {
+            background-color: #1746a2 !important;
         }
 
-        .menu-lateral a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 10px 8px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-            font-size: 12px;
+        /* Contenido principal: deja espacio para el menú */
+        .content-offset {
+            margin-left: 16.666667%;
+            width: 83.333333%;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .menu-lateral a:hover,
-        .menu-lateral a.activo {
-            background-color: #1746a2;
-        }
-
-        .contenido {
-            margin-left: 195px;
-            padding: 25px 20px;
-        }
-
+        /* Contenedor de la tabla */
         .contenedor-tabla {
             margin-top: 20px;
-            padding: 15px;
+            padding: 10px;
             background-color: #f5f5f5;
             border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
+        /* Tabla ajustada al ancho disponible */
         .tabla-clientes {
             width: 100% !important;
-            font-size: 12px;
+            table-layout: fixed;
+            font-size: 11px;
+        }
+
+        .tabla-clientes th,
+        .tabla-clientes td {
+            padding: 6px 4px !important;
+            overflow-wrap: anywhere;
+            vertical-align: middle;
         }
 
         .tabla-clientes th {
-            white-space: nowrap;
+            white-space: normal;
         }
 
-        @media (max-width: 768px) {
-            .menu-lateral {
+        /* Evita que los controles de DataTables desborden */
+        .dataTables_wrapper {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        /* Adaptación a pantallas pequeñas */
+        @media (max-width: 767.98px) {
+            .sidebar {
                 position: relative;
                 width: 100%;
                 height: auto;
             }
 
-            .contenido {
+            .content-offset {
                 margin-left: 0;
+                width: 100%;
                 padding: 15px;
             }
 
-            .contenedor-tabla {
-                overflow-x: auto;
+            .tabla-clientes {
+                font-size: 10px;
+            }
+
+            .tabla-clientes th,
+            .tabla-clientes td {
+                padding: 4px 2px !important;
             }
         }
     </style>
@@ -101,25 +109,43 @@
 <body>
 
     <!-- Menú lateral -->
-    <nav class="menu-lateral">
-        <h5>Menú</h5>
+    <nav class="col-auto col-md-3 col-xl-2 sidebar bg-primary text-white p-3">
+        <br>
 
-        <a href="AltaCliente.jsp">Alta de Cliente</a>
+        <h5 class="text-center fw-bold">Menú</h5>
 
-        <a href="${pageContext.request.contextPath}/ServletListado"
-           class="activo">Listado de Clientes</a>
+        <br>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="AltaCliente.jsp"
+                   class="nav-link text-white">
+                    Alta de Cliente
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/ServletListado"
+                   class="nav-link text-white active bg-custom-blue"
+                   aria-current="page">
+                    Listado de Clientes
+                </a>
+            </li>
+        </ul>
     </nav>
 
     <!-- Contenido principal -->
-    <main class="contenido">
+    <main class="content-offset">
 
         <h2 class="fw-bold">Formulario de Cliente</h2>
 
+        <!-- Usuario que inició sesión -->
         <p class="mt-3">
             <strong>Usuario:</strong>
             <c:out value="${sessionScope.usuario}" />
         </p>
 
+        <!-- Listado de clientes -->
         <div class="contenedor-tabla">
 
             <h5 class="fw-bold mb-4">
@@ -149,10 +175,12 @@
                         <tr>
                             <td><c:out value="${cliente.dni}" /></td>
                             <td><c:out value="${cliente.cuil}" /></td>
+
                             <td>
                                 <c:out value="${cliente.nombre}" />
                                 <c:out value="${cliente.apellido}" />
                             </td>
+
                             <td><c:out value="${cliente.sexo}" /></td>
                             <td><c:out value="${cliente.fechaNacimiento}" /></td>
                             <td><c:out value="${cliente.direccion}" /></td>
@@ -165,22 +193,27 @@
 
             </table>
         </div>
+
     </main>
 
-    <!-- jQuery y DataTables -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
+    <!-- Configuración de DataTables -->
     <script>
         $(document).ready(function () {
             $('#tablaClientes').DataTable({
+                autoWidth: false,
+                scrollX: false,
                 pageLength: 5,
                 lengthMenu: [5, 10, 15, 25],
                 ordering: true,
                 searching: true,
+
                 language: {
                     processing: "Procesando...",
                     search: "Buscar:",
@@ -191,6 +224,7 @@
                     loadingRecords: "Cargando...",
                     zeroRecords: "No se encontraron clientes",
                     emptyTable: "No hay clientes registrados",
+
                     paginate: {
                         first: "Primero",
                         previous: "Anterior",
@@ -204,3 +238,4 @@
 
 </body>
 </html>
+
