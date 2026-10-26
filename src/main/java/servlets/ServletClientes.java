@@ -42,6 +42,9 @@ public class ServletClientes extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// para que las tildes y la ñ lleguen bien
+		request.setCharacterEncoding("UTF-8");
+
 		// 0) detectar btnGuardarCliente
 		if (request.getParameter("btnGuardarCliente") != null) {
 			// 1) obtener datos del form
@@ -76,7 +79,9 @@ public class ServletClientes extends HttpServlet {
         telefono != null && telefono.matches("\\d{10}");
 
 			if (!losDatosSonValidos) {
-				response.sendRedirect("AltaCliente.jsp?error=1");
+				request.setAttribute("errorMensaje", "error al guardar, verifique los campos.");
+				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
+				return;
 			}
 			Clientes objCliente = new Clientes();
 			objCliente.setDni(dni);
@@ -97,11 +102,12 @@ public class ServletClientes extends HttpServlet {
 			try {
 				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
 			} catch (Exception e) {
-				request.setAttribute("errorMessage", "Error: " + e);
+				request.setAttribute("errorMensaje", "Error: " + e);
 			}
 
 			if (idGenerado <= 0) {
-				request.getRequestDispatcher("AltaCliente.jsp?error=1").forward(request, response);
+				request.setAttribute("errorMensaje", "error al guardar, verifique los campos.");
+				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
 				return;
 			}
 			// 4) indicar resultado al usuario
