@@ -19,25 +19,12 @@
 </head>
 <body class="bg-light py-5">
 
-    <!-- Menú Lateral -->
-	<nav
-		class="col-auto col-md-3 col-xl-2 sidebar bg-primary text-white p-3">
-		<br>
-		<h5 class="text-center fw-bold">Menú</h5>
-		<br>
-
-		<ul class="nav nav-pills flex-column mb-auto">
-			<li class="nav-item"><a href="AltaCliente.jsp"
-				class="nav-link text-white active bg-custom-blue"
-				aria-current="page">Alta de Cliente</a></li>
-			<li><a href="${pageContext.request.contextPath}/ServletListado" class="nav-link text-white">Listado
-					de Clientes</a></li>
-		</ul>
-	</nav>
+    
+<!-- Menú Lateral -->
+	<jsp:include page="Menu.jsp"></jsp:include>
 
 
-
-    <div class="container">
+    <div class="container content-offset">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7">
                 

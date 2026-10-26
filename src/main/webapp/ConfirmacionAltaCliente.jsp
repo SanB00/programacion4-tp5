@@ -13,7 +13,7 @@
 	<jsp:include page="Menu.jsp"></jsp:include>
 	</hr>
 
-	<div class="container" style="color: green;">
+	<div class="content-offset" style="color: green;">
 		<%
 		Clientes objCliente = null;
 		if (session.getAttribute("objCliente") != null) {
@@ -26,11 +26,10 @@
 			<p>
 			<h3>
 				<!-- El ID es el <strong>"${objCliente.getId()}"</strong> -->
-				El ID es el <strong>"${idCliente}"</strong>
-				El ID es el <strong>"${objCliente.getId()}"</strong>
-				Nombre: <b>"${objCliente.getNombre()}"</b>
-				Apellido: <b>"${objCliente.getApellido()}"</b>
-				DNI: <b>"${objCliente.getDni()}"</b>
+				El ID es el <strong>"${idCliente}"</strong><br />
+				Nombre: <b>"${objCliente.getNombre()}"</b><br />
+				Apellido: <b>"${objCliente.getApellido()}"</b><br />
+				DNI: <b>"${objCliente.getDni()}"</b><br />
 			</h3>
 			</p>
 		</c:if>

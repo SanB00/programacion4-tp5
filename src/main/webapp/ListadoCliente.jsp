@@ -31,6 +31,11 @@ prefix="c"%>
 
   <body>
     <!-- Menú lateral -->
+    <jsp:include page="Menu.jsp"></jsp:include>
+
+    <!-- 
+
+
     <nav class="col-auto col-md-3 col-xl-2 sidebar bg-primary text-white p-3">
       <br />
 
@@ -56,6 +61,7 @@ prefix="c"%>
         </li>
       </ul>
     </nav>
+-->
 
     <!-- Contenido principal -->
     <main class="content-offset">
