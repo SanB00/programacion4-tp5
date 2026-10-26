@@ -42,6 +42,9 @@ public class ServletClientes extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// para que las tildes y la ñ lleguen bien
+		request.setCharacterEncoding("UTF-8");
+
 		// 0) detectar btnGuardarCliente
 		if (request.getParameter("btnGuardarCliente") != null) {
 			// 1) obtener datos del form
@@ -59,18 +62,18 @@ public class ServletClientes extends HttpServlet {
 			String telefono = request.getParameter("txtTelefono");
 
 			// 2) validar tipo de dato
-			boolean losDatosSonValidos = dni != null && dni.matches("[0-9]{6,8}") && cuil != null
-					&& cuil.matches("[0-9]{11}") && nombre != null && nombre.matches("[A-Za-zÁ-Úá-úñÑ\\s]+")
-					&& apellido != null && apellido.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && sexo != null
-					&& !sexo.trim().isEmpty() && fechaNacimiento != null && !fechaNacimiento.trim().isEmpty()
-					&& direccion != null && !direccion.trim().isEmpty() && nacionalidad != null
-					&& nacionalidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && localidad != null
-					&& localidad.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && provincia != null
-					&& provincia.matches("[A-Za-zÁ-Úá-úñÑ\\s]+") && correo != null
-					&& correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$") && telefono != null
-					&& telefono.matches("[0-9]{10}");
+			boolean losDatosSonValidos = dni != null && dni.matches("\\d{6,8}") && cuil != null
+					&& cuil.matches("\\d{11}") && validarTexto(nombre) && validarTexto(apellido) && sexo != null
+					&& !sexo.isBlank() && fechaNacimiento != null && !fechaNacimiento.isBlank() && direccion != null
+					&& !direccion.isBlank() && validarTexto(nacionalidad) && validarTexto(localidad)
+					&& validarTexto(provincia) && correo != null
+					&& correo.matches("^[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,6}$") && telefono != null
+					&& telefono.matches("\\d{10}");
+
 			if (!losDatosSonValidos) {
-				response.sendRedirect("AltaCliente.jsp?error=1");
+				request.setAttribute("errorMensaje", "error al guardar, verifique los campos.");
+				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
+				return;
 			}
 			Clientes objCliente = new Clientes();
 			objCliente.setDni(dni);
@@ -91,11 +94,11 @@ public class ServletClientes extends HttpServlet {
 			try {
 				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
 			} catch (Exception e) {
-				request.setAttribute("errorMessage", "Error: " + e);
+				request.setAttribute("errorMensaje", "Error MySQL: " + e);
 			}
 
 			if (idGenerado <= 0) {
-				request.getRequestDispatcher("AltaCliente.jsp?error=1").forward(request, response);
+				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
 				return;
 			}
 			// 4) indicar resultado al usuario
@@ -104,6 +107,10 @@ public class ServletClientes extends HttpServlet {
 			request.setAttribute("objCliente", objCliente);
 			request.getRequestDispatcher("ConfirmacionAltaCliente.jsp").forward(request, response);
 		}
+	}
+
+	private boolean validarTexto(String texto) {
+		return texto != null && texto.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");
 	}
 
 }

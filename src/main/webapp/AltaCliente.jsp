@@ -1,4 +1,5 @@
 <%@ page import="entidad.Usuarios"%>
+<%@ page import="entidad.Clientes" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,19 +7,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Alta de Cliente</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/estilos.css">
+
 </head>
 <body class="bg-light py-5">
 
-<jsp:include page="Menu.jsp"></jsp:include>
-</hr>
-    <div class="container">
+    
+<!-- Menú Lateral -->
+	<jsp:include page="Menu.jsp"></jsp:include>
+
+
+    <div class="container content-offset">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7">
                 
-              
-				
 
                 <!-- cuadro para cargar los datos del cliente -->
                 <div class="card shadow p-4">
@@ -113,6 +122,19 @@
                      
 
                 </div>
+                
+                <%
+		Clientes objCliente = null;
+		if (session.getAttribute("objCliente") != null) {
+			objCliente = (Clientes) session.getAttribute("objCliente");
+		
+		%>
+		<h1>Cliente ingresado con exito!</h1>
+		<h3>El Id es: </h3><%=objCliente.getId() %>
+		<%
+		}
+		%>
+		
             </div>
         </div>
     </div>
