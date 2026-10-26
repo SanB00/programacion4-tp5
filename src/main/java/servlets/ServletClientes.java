@@ -94,10 +94,12 @@ public class ServletClientes extends HttpServlet {
 			try {
 				idGenerado = new ClienteNegImpl().agregarCliente(objCliente);
 			} catch (Exception e) {
-				request.setAttribute("errorMensaje", "Error MySQL: " + e);
+				request.setAttribute("errorMensaje", "Error: " + e);
 			}
 
 			if (idGenerado <= 0) {
+				// request.setAttribute("errorMensaje", "error al guardar, verifique los
+				// campos.");
 				request.getRequestDispatcher("AltaCliente.jsp").forward(request, response);
 				return;
 			}

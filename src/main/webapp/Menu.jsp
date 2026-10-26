@@ -32,10 +32,10 @@
 
 		<ul class="nav nav-pills flex-column mb-auto">
 			<li class="nav-item">
-				<a href="AltaCliente.jsp" class="nav-link text-white" aria-current="page">Alta de Cliente</a>
+				<a href="AltaCliente.jsp" class="nav-link text-white boton-menu" aria-current="page">Alta de Cliente</a>
 			</li>
-			<li class="nav-item">
-				<a href="${pageContext.request.contextPath}/ServletListado" class="nav-link text-white">Listado de Clientes</a>
+			<li>
+				<a href="${pageContext.request.contextPath}/ServletListado" class="nav-link text-white boton-menu">Listado de Clientes</a>
 			</li>
 		</ul>
 	</nav>

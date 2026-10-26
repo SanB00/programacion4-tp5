@@ -12,7 +12,7 @@ body {
 	z-index: 100;
 }
 
-.bg-custom-blue {
+.boton-menu:hover {
 	background-color: #1746a2 !important;
 }
 
