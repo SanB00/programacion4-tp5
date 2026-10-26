@@ -14,25 +14,7 @@
 <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
-
-<style>
-.sidebar {
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 100;
-}
-
-.content-offset {
-	margin-left: 240px;
-}
-
-.bg-custom-blue {
-	background-color: #1746a2 !important;
-}
-
-</style>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/estilos.css">
 
 </head>
 <body class="bg-light py-5">

@@ -12,13 +12,16 @@
 
 </head>
 <body>
-	<!-- botones de navegacion -->
+	<!-- botones de navegacion
 	<div class="mb-3 text-center">
 		<a href="AltaCliente.jsp" 
 			class="btn btn-outline-primary btn-sm me-2">Alta de Cliente</a>
 		
 		<a href="${pageContext.request.contextPath}/ServletListado" class="btn btn-outline-secondary btn-sm">Listado de Clientes</a>
 	</div>
+	 -->
+
+
 	
 	<c:if test="${not empty errorMensaje}">
         <div style="color: red; background-color: #ffe6e6; padding: 10px; border: 1px solid red; margin-bottom: 15px;">
